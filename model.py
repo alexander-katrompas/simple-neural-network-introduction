@@ -13,7 +13,7 @@ from numpy import loadtxt
 import numpy as np
 import matplotlib
 from sklearn.metrics import classification_report, confusion_matrix
-import config as cfg # configuration file with hyper-parameters
+import config as cfg # configuration file with hyperparameters
 
 # ###############################
 # Begin silencing operations. This has nothing to do with ML and the
@@ -24,6 +24,8 @@ import config as cfg # configuration file with hyper-parameters
 
 if cfg.SILENCE:
     from silenceStdError import SilenceStdErr as silence
+else:
+    from silenceStdError import nullcontext as silence
 
 # Silence TensorFlow messages by importing silence_tensorflow before TensorFlow
 # this is for demo purposes only, not recommended for debugging during development or production
@@ -99,7 +101,7 @@ with silence():
 model.summary()
 
 # train (fit) the keras model on the dataset using silence_stderr to suppress TensorFlow messages
-with silence() if cfg.SILENCE else None:
+with silence():
     # this both trains and returns a history object which contains training history
     history = model.fit(X_trn, y_trn, validation_data=(X_val, y_val), epochs=cfg.EPOCHS, batch_size=cfg.BATCHSIZE, verbose=cfg.VERBOSE)
 model.summary()
