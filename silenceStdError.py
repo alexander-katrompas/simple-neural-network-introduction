@@ -5,6 +5,18 @@ Context manager for silencing stderr (e.g. TensorFlow messages)
 import os
 import sys
 
+class nullcontext:
+    """
+    Context manager that does nothing, for use in conditional context management.
+    Usage:
+    with nullcontext():
+        do something
+    """
+    def __enter__(self):
+        pass
+    def __exit__(self, exc_type, exc, tb):
+        pass
+
 class SilenceStdErr:
     """
     Context manager for silencing stderr (e.g. TensorFlow messages)
